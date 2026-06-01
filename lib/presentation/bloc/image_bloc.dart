@@ -11,47 +11,50 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
   final GalleryRepo galleryRepo;
   final CameraRepo cameraRepo;
   final ExtractText extractText;
-  ImageBloc(
-    this.cameraRepo,
-    this.galleryRepo,
-    this.extractText,
-  ) : super(ImageInitial()) {
+  ImageBloc(this.cameraRepo, this.galleryRepo, this.extractText)
+    : super(ImageInitial()) {
     on<CameraImageRequest>(_onCamera);
 
     on<GalleryImageRequest>(_onGallery);
   }
 
-  Future<void> _onCamera(CameraImageRequest event, Emitter<ImageState> emit) async{
+  Future<void> _onCamera(
+    CameraImageRequest event,
+    Emitter<ImageState> emit,
+  ) async {
     try {
-        final captureImage = await cameraRepo.captureImage();
-        emit(ImageLoading());
-        if (captureImage != null) {
-          final extractedText = await extractText.extractedText(captureImage);
-          final filteredText = extractText.filtertext(extractedText);
-          final data = ImageModel(captureImage, extractedText, filteredText);
-          emit(ImageSuccess(data));
-        } else {
-          emit(ImageInitial());
-        }
-      } catch (e) {
-        emit(ImageFailure(e.toString()));
+      final captureImage = await cameraRepo.captureImage();
+      emit(ImageLoading());
+      if (captureImage != null) {
+        final extractedText = await extractText.extractedText(captureImage);
+        final filteredText = extractText.filtertext(extractedText);
+        final data = ImageModel(captureImage, extractedText, filteredText);
+        emit(ImageSuccess(data));
+      } else {
+        emit(ImageInitial());
       }
+    } catch (e) {
+      emit(ImageFailure(e.toString()));
     }
+  }
 
-    Future<void> _onGallery(GalleryImageRequest event, Emitter<ImageState> emit) async{
-      try {
-        final galleryImage = await galleryRepo.galleryImage();
-        emit(ImageLoading());
-        if (galleryImage != null) {
-          final extractedText = await extractText.extractedText(galleryImage);
-          final filterText = extractText.filtertext(extractedText);
-          final data = ImageModel(galleryImage, extractedText, filterText);
-          emit(ImageSuccess(data));
-        } else {
-          emit(ImageInitial());
-        }
-      } catch (e) {
-        emit(ImageFailure(e.toString()));
+  Future<void> _onGallery(
+    GalleryImageRequest event,
+    Emitter<ImageState> emit,
+  ) async {
+    try {
+      final galleryImage = await galleryRepo.galleryImage();
+      emit(ImageLoading());
+      if (galleryImage != null) {
+        final extractedText = await extractText.extractedText(galleryImage);
+        final filterText = extractText.filtertext(extractedText);
+        final data = ImageModel(galleryImage, extractedText, filterText);
+        emit(ImageSuccess(data));
+      } else {
+        emit(ImageInitial());
       }
+    } catch (e) {
+      emit(ImageFailure(e.toString()));
     }
-    }
+  }
+}

@@ -63,32 +63,32 @@ class HomeScreen extends StatelessWidget {
               ),
             );
           } else if (state is ImageSuccess) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 30),
-                Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 30),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Image.file(
+                      state.imageModel.image!,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                  child: Image.file(
-                    state.imageModel.image!,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(height: 30),
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Text(
+                  SizedBox(height: 30),
+                  Text(
                     state.imageModel.filterText ?? 'Can\'t recognized',
                     style: TextStyle(fontSize: 20),
                   ),
-                ),
 
-                // extractTextView(state)
-              ],
+                  // extractTextView(state)
+                ],
+              ),
             );
           }
 
