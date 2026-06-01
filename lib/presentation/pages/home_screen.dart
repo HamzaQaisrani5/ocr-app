@@ -64,21 +64,29 @@ class HomeScreen extends StatelessWidget {
             );
           } else if (state is ImageSuccess) {
             return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: 30),
                 Container(
-                  height: MediaQuery.of(context).size.height / 2,
+                  height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Image.file(state.image!, fit: BoxFit.contain),
+                  child: Image.file(
+                    state.imageModel.image!,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 30),
                 SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Text(state.recognizeText ?? 'Can\'t recognized'),
+                  child: Text(
+                    state.imageModel.filterText ?? 'Can\'t recognized',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
+
                 // extractTextView(state)
               ],
             );
@@ -86,9 +94,11 @@ class HomeScreen extends StatelessWidget {
 
           return Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: 30),
                 CircularProgressIndicator(color: Colors.teal),
+                SizedBox(height: 80),
                 CircularProgressIndicator(color: Colors.teal),
               ],
             ),
@@ -107,6 +117,7 @@ class HomeScreen extends StatelessWidget {
               SnackBar(
                 content: Text('Uploading . . . '),
                 backgroundColor: Colors.orange,
+                duration: Duration(seconds: 1),
               ),
             );
           } else if (state is ImageSuccess) {

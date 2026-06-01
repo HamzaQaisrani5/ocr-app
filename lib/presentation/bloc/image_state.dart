@@ -13,7 +13,6 @@ final class ImageFailure extends ImageState {
 }
 
 final class ImageSuccess extends ImageState {
-  final File? image;
-  final String? recognizeText;
-  ImageSuccess(this.image, [this.recognizeText]);
+  final ImageModel imageModel;
+  ImageSuccess(this.imageModel);
 }

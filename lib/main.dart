@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ocr_app/data/repos/camera_repo.dart';
+import 'package:ocr_app/data/repos/extract_text.dart';
 import 'package:ocr_app/data/repos/gallery_repo.dart';
 import 'package:ocr_app/mybloc_observer.dart';
 import 'package:ocr_app/presentation/bloc/image_bloc.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ImageBloc(CameraRepo(), GalleryRepo()),
+      create: (context) => ImageBloc(CameraRepo(), GalleryRepo(), ExtractText()),
       child: MaterialApp(home: HomeScreen()),
     );
   }
