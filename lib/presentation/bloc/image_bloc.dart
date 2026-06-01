@@ -1,10 +1,8 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ocr_app/data/models/image_model.dart';
 import 'package:ocr_app/data/repos/camera_repo.dart';
 import 'package:ocr_app/data/repos/extract_text.dart';
-import 'package:ocr_app/data/repos/filtered_extract_text.dart';
 import 'package:ocr_app/data/repos/gallery_repo.dart';
 part 'image_event.dart';
 part 'image_state.dart';
@@ -18,8 +16,13 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
     this.galleryRepo,
     this.extractText,
   ) : super(ImageInitial()) {
-    on<CameraImageRequest>((event, emit) async {
-      try {
+    on<CameraImageRequest>(_onCamera);
+
+    on<GalleryImageRequest>(_onGallery);
+  }
+
+  Future<void> _onCamera(CameraImageRequest event, Emitter<ImageState> emit) async{
+    try {
         final captureImage = await cameraRepo.captureImage();
         emit(ImageLoading());
         if (captureImage != null) {
@@ -33,9 +36,9 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       } catch (e) {
         emit(ImageFailure(e.toString()));
       }
-    });
+    }
 
-    on<GalleryImageRequest>((event, emit) async {
+    Future<void> _onGallery(GalleryImageRequest event, Emitter<ImageState> emit) async{
       try {
         final galleryImage = await galleryRepo.galleryImage();
         emit(ImageLoading());
@@ -50,6 +53,5 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       } catch (e) {
         emit(ImageFailure(e.toString()));
       }
-    });
-  }
-}
+    }
+    }
