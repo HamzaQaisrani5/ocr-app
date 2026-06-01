@@ -172,21 +172,3 @@ void alertDialog(BuildContext context, ImageBloc provider) {
     },
   );
 }
-
-// Widget extractTextView(ImageSuccess succes){
-//   return Center( 
-//     child: succes.image==null?Text('No Result'):Text(extractText(succes.image!).toString()),
-//   );
-// }
-
-// Future<String?> extractText(File file) async {
-//   try {
-//   final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
-//   final InputImage inputImage = InputImage.fromFile(file);
-//   final RecognizedText processImage = await textRecognizer.processImage(inputImage);
-//   return processImage.text;
-//   } catch (e) {
-//   log('ERROR: ${e.toString()}');
-     
-//   }
-// }
